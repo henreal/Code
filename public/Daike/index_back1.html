@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>我的对换课</title>
+    <link type="text/css" href="/Static/weui/lib/weui.min.css?v=1.1.3" rel="stylesheet" media="all">
+    <link type="text/css" href="/Static/weui/css/jquery-weui.min.css?v=1.2.1" rel="stylesheet" media="all">
+    <link type="text/css" href="/Static/css/hr.common.css?v=1.0.3" rel="stylesheet" media="all">
+    <link type="text/css" href="/Static/css/touch.common.css?v=1.0.1" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="/Static/element-plus/element-plus.2_3_6.css" />
+    <style type="text/css">
+		.hr-swap-items dl {align-items:stretch;border-bottom:1px solid #eee;padding:5px 0;}
+		.weui-cells_form .weui-cell__ft {font-size:1.1rem;}
+		.weui-cells_form .popWin i {font-size:1.2rem;position:relative;top:2px;color:#4ce}
+		.weui-toast {margin-left: auto;}
+		.weui-cell__hd .weui-label {color:#999;}
+		.weui-cells__title {border-top:10px solid #eee;font-size:1.1rem;padding-top:8px}
+		.old-box h3 {padding:10px; border-bottom:1px solid #4fb74e;}
+		.old-box ul {padding:10px; display:flex; flex-direction:column;}
+		.old-box li {padding:10px; border-bottom:1px solid #ddd; display:flex;}
+		.old-box li tt {width:5.2rem;color:#999;flex-shrink:0;font-size:0.9rem;}
+		.old-box li em {font-size:1rem;}
+		.weui-cell_switch {border-bottom:1px solid #f17be2;color:#b563ab;}
+		.modi-body {display:none;}
+
+        .footer-nav {position:fixed; bottom: 0; width: 100%; border-top:1px solid #ccc;}
+        .footer-nav .var--box { background: #eee;}
+        .footer-nav .var-bottom-navigation-item--active {background: #4ce; color: #fff;}
+	</style>
+    <script src="/Static/js/vue.global.3_3_4.js?v="></script>
+    <script src="/Static/js/vue-router.global.4_2_2.js?v="></script>
+    <script src="/Static/js/axios.min.1_4_0.js"></script>
+    <script src="/Static/element-plus/element-plus.full.2_3_6.js"></script>
+    <script src="/Static/js/varlet.js"></script>
+</head>
+<body>
+    <div id="app">
+        <header class="hr-rows hr-header">
+            <nav class="navBack"><em><i class="hr-icon">&#xec58;</i></em></nav>
+            <nav class="navTitle"><span>{{ title }}</span></nav>
+            <nav class="navMenu"><em><i class="hr-icon">&#xf329;</i></em></nav>
+        </header>
+        <div class="hr-fix hr-header-hide"></div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">申请人：</label></div>
+            <div class="weui-cell__bd">
+                <input name="Applyer" class="weui-input" id="Applyer" v-model="YGXM" type="text" readonly>
+                <input name="ApplyID" class="weui-input" id="ApplyID" v-model="YGDM" type="text" />
+            </div>
+        </div>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">选择项目：</label></div>
+            <div class="weui-cell__bd" @click="selectCourse()">
+                <input name="CourseItem" class="weui-input opt1" id="CourseItem" type="text" value="" data-values="0" readonly>
+                <input name="CourseItemID" id="CourseItemID" type="hidden" value="0">
+            </div>
+            <div class="weui-cell__ft" @click="selectCourse()"><i class="hr-icon">&#xf321;</i></div>
+        </div>
+        <div>{{lists}}</div>
+        <el-button>我是 ElButton</el-button>
+        <el-select v-model="value" class="m-2" placeholder="Select" size="large">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                />
+              </el-select>
+        <div class="weui-cell">
+            <div class="weui-cell__hd"><label class="weui-label">选择课程：</label></div>
+            <div class="weui-cell__bd">
+                <input name="Course" class="weui-input opt2" id="Course" type="text" value="" data-values="">
+                <input name="CourseID" id="CourseID" type="hidden" value="">
+            </div>
+            <div class="weui-cell__ft"><i class="hr-icon">&#xf321;</i></div>
+        </div>
+        <div class="hr-gap-20 hr-gapbg"></div>
+        <var-space :size="[10, 10]">
+            <var-button type="danger" @click="show=!show">消息按钮</var-button>
+            <var-snackbar v-model:show="show">这是一个消息条！！</var-snackbar>
+        </var-space>
+        <div class="hr-gap-20 hr-gapbg"></div>
+        <var-space direction="column" size="large">
+            <var-select placeholder="请选择考核项目" variant="outlined" size="small" v-model="value" @change="selectItem()">
+                <var-option v-for="(item, index) in items" :key="index" :label="item.item" :value="item.id"></var-option>
+            </var-select>
+            <var-select placeholder="请选择课程" variant="outlined" size="small" v-model="course" @click="getCourse()">
+                <var-option v-for="(val, key) in courses" :key="key" :label="val.course" :value="val.id"></var-option>
+            </var-select>
+            <var-skeleton :title="loading" :loading="loading">
+                <var-card title="本草纲目"
+                    description="如果华佗再世,崇洋都被医治,外邦来学汉字,激发我民族意识。马钱子、决明子、苍耳子，还有莲子；黄药子、苦豆子、川楝子，我要面子。用我的方式，改写一部历史。没什么别的事，跟着我念几个字。山药当归枸杞 GO，山药 当归 枸杞 GO，看我抓一把中药，服下一帖骄傲~"
+                ></var-card>
+            </var-skeleton>
+            <var-button type="info" @click="getKecheng()">取课程</var-button>
+        </var-space>
+        {{show}}，{{errmsg}}<br>
+        <var-button type="primary" :loading="read" @click="getCourse()">加载</var-button>
+        <br><br>
+        <var-loading description="LOADING" :loading="loading">有内容时</var-loading>
+        {{loading}}__{{read}}<br>{{courses}}<br>课程：{{course}}
+
+        <div class="footer-nav">
+            <var-bottom-navigation v-model:active="footer_nav">
+                <var-bottom-navigation-item label="首页" icon="home-outline" @click="backHome('/Touch/Index.html')"></var-bottom-navigation-item>
+                <var-bottom-navigation-item label="消息" icon="message-processing-outline"></var-bottom-navigation-item>
+                <var-bottom-navigation-item label="设置" icon="cog-outline"></var-bottom-navigation-item>
+                <var-bottom-navigation-item label="个人中心" icon="account-circle-outline"></var-bottom-navigation-item>
+            </var-bottom-navigation>
+        </div>
+        <Headd></Headd>
+        <br>
+        <span v-html="text1"></span>
+        以下为路由：<hr>
+        <router-link to="/">首页</router-link> | <router-link to="/home">主页</router-link>
+        <router-view></router-view>
+        <br><br><br>
+    </div>
+    <div id="app1">
+        VUE3 语法糖
+    </div>
+<script>
+    const { createApp,ref } = Vue;
+    const Headd = {
+        template:`
+        <h2>这是一个组件</h2><hr>
+        `
+    };
+    const Header = {
+        template:`
+        <h2>这是顶部基础</h2>
+        `
+    }
+    const routes = [    //路由规则
+        {path:'/', component:Header},
+        {path:'/home', component:Headd}
+    ]
+    const router = VueRouter.createRouter({
+        history: VueRouter.createWebHashHistory(),
+        routes,
+    });
+    const app = createApp({
+        data() {
+            return {
+                name: '对换课',
+                title: '我的对换课',
+                YGDM: 810000,
+                YGXM: '恒锐网络',
+                lists:[],
+                value:null,
+                options:[
+                    {value:'test',label:'11'}
+                ],
+                loading:false,
+                show:false,
+                errmsg:'',
+                footer_nav:0,
+                load1:false, read:false,
+                items:[], courses:[],
+                course:0, text1:'dddd',
+            }
+        },components:{      //注册组件
+            Headd, Header
+        },created(){
+            document.title = this.title;
+            axios.get('/API/Items/Index.html').then((res)=>{  //接口取当前用户的考核项目：仅取Template=TempTableA
+                console.log(res.data);
+                this.items = res.data.data;
+            });
+            //读取文本文件：
+            this.text1 = this.readFile('demo.html');
+        },methods:{
+            selectCourse(){
+                console.log(this.YGDM);
+                var that = this;
+                axios.get('/API/Items.html').then(function(res){
+                    console.log(res.data);
+                    that.lists = res.data.data;
+                });
+            },
+            selectItem(){   //选择项目后执行，取当前用户、当前项目的课程
+                console.log('ID：',this.value); var that=this;
+                axios.get('/API/Course.html?item='+this.value).then(function(res){
+                    that.courses = res.data.data;
+                });
+            },getKecheng(){
+                this.loading = !this.loading;
+                this.lists=[
+                    {'name':'没有演示'},
+                ];
+                var that = this;
+                axios.get('/API/Items.html').then(function(res){    //取课程列表数据
+                    that.lists = res.data;
+                    console.log(res);
+                    that.errmsg = res.data.errmsg;
+                });
+            },backHome(href){
+                console.log(href);
+                location.href=href;
+            },getCourse(){
+                var id=this.course;
+                console.log(id);
+            },readFile (filePath){
+                // 创建一个新的xhr对象
+                let xhr = null, okStatus = document.location.protocol === 'file' ? 0 : 200
+                xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP')      
+                xhr.open('GET', filePath, false)
+                xhr.overrideMimeType('text/html;charset=utf-8')
+                xhr.send(null)
+                return xhr.status === okStatus ? xhr.responseText : null
+            },
+        }
+    });
+    app.use(ElementPlus);   //引入Element Plus
+    app.use(Varlet);        //引入Varlet UI
+    app.use(router);        //创建并挂载根实例
+    app.mount('#app');      //渲染
+</script>
+</body>
+</html>

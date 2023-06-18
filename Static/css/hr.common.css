@@ -1,0 +1,65 @@
+﻿@charset "utf-8";
+/**
+ * CSS Document for Layui Frame
+
+ * Central Integration Working Platform on Smart Construction Site.
+ * http://www.henreal.com
+ * e-Mail: henreal@qq.com WeChat：Henreal-Net
+ * Henreal CIWP V1.0.2 beta23 Build 20180228
+ * Copyright © 2005-2018 Henreal Network Technology. All Rights Reserved
+ */
+html, body {margin:0;padding:0;width:100%;height:100%;font-size:1rem;font-family:'微软雅黑', Arial, sans-serif}
+article, aside, footer, header, hgroup, main, nav, section, details, menu, em, dfn, code, cite, tt, sub, sup {margin:0;padding:0;font-style:normal;font-size:1rem;font-family:'Microsoft YaHei'}
+em, dfn, code, cite, tt, nav {display:block;text-decoration:none;font-style:normal;}
+ul, ol, li, dl, dt, dd {display:block;margin:0;padding:0;line-height:150%;font-style:normal;}
+h1, h2, h3, h4, h5, h6, u, sub, sup {font-style:normal; font-weight:normal; text-decoration:none;}
+
+a {color:#000;text-decoration:none;}
+.hr-rows {display:flex; align-items:center; justify-content:space-between; box-sizing:border-box}
+.hr-grids {display:flex; align-items:center; flex-wrap:wrap; justify-content:inherit;}
+.hr-stretch {align-items:stretch;}		/** Item UP in the list **/
+.hr-rows .hr-fixed {flex-shrink:0;}
+.hr-rows .hr-grow, .hr-row-fill {flex-grow:2;}
+.hr-rows .hr-item {padding:0 5px; line-height:2; box-sizing:border-box;}
+
+.hr-fix {display:block;margin:0;padding:0;font-style:normal;clear:both;zoom:1;overflow:hidden;}
+.hr-fix:after, .hr-fix:before{content:" ";display:block;height:0;overflow:hidden}
+
+.hr-shrink-x10 {padding:10px;} .hr-shrink-x20 {padding:20px;}
+.hr-sides-x10 {padding:0 10px;} .hr-sides-x20 {padding:0 20px;}
+.hr-align_l {text-align:left;} .hr-align_c {text-align:center;} .hr-align_r {text-align:right;padding-right:10px;}
+.hr-place-h50 {clear:both;height:50px;overflow:hidden;}		/** 占位 **/
+.hr-gap-20 {height:20px;overflow:hidden;background-color:#eee;}
+
+@font-face {
+    font-family: 'icohr';
+    src: url('../fonts/icohr.eot');		/* IE9 */
+    src: url('../fonts/icohr.eot?#iefix') format('embedded-opentype'),		/* IE6-IE8 */
+    url('../fonts/icohr.woff') format('woff'),			/* chrome firefox */
+    url('../fonts/icohr.ttf') format('truetype'),		/* chrome firefox opera Safari, Android, iOS 4.2+*/
+    url('../fonts/icohr.svg#iconfont') format('svg');	/* iOS 4.1- */
+}
+.hr-icon {font-family:"icohr" !important;font-style:normal;padding:0 3px;-webkit-font-smoothing: antialiased;-webkit-text-stroke-width: 0px;-moz-osx-font-smoothing: grayscale;}
+.hr-icon-top {position: relative;top:2px;line-height:27px;}
+
+.layui-form-item .hr-mid {width:auto;}
+.hr-verify {display:none;}
+.hr-verify-true {display:initial;color:#080;}
+.hr-verify-false {display:initial;color:#f30;}
+
+.hr-input-w80 .layui-input-inline {width:80px;} .hr-input-w100 .layui-input-inline {width:100px;} .hr-input-w150 .layui-input-inline {width:150px;}
+.layui-form-item .hr-lable-title {padding:9px 5px;text-align:right;width:100px;}
+.layui-form-item .hr-lable-title i {color:#f30;}
+
+.hr-tongji {display:none;width:0;height:0;overflow:hidden;}
+
+/*-- 按钮 --*/
+.hr-btn {display: inline-block;padding: 0 15px;border:0;border-radius:4px;height:35px;line-height:35px;text-align:center;white-space: nowrap;background-color:#3b95c8;cursor: pointer;font-size:14px;color:#fff;transition: all 0.3s;-webkit-transition:all 0.3s;}
+.hr-btn:hover {background-color:#145378}
+.hr-btn i:after {content:" "}
+.hr-btn_oran {background-color:#c30}/*橙色*/ .hr-btn_skyblue {background-color:#0bd}/*天蓝*/ .hr-btn_deon {background:#158;}/*深蓝*/ .hr-btn_darkred {background-color:#8b0000;}/*深红*/
+.hr-btn_fuch {background:#809;}/*紫红*/ .hr-btn_peru {background-color:#754;}/*泥黄*/ .hr-btn_olive {background-color:#672;}/*橄榄绿*/ .hr-btn_darkgreen {background-color:#006400;}/*墨绿色*/
+.hr-btn_barred {background-color:#fff;border:1px solid #8b0000;color:#8b0000}/*深红框*/ .hr-btn_bargreen {background-color:#fff;border:1px solid #006400;color:#006400}/*墨绿框*/
+.hr-btn_bardeon {background-color:#fff;border:1px solid #158;color:#158}/*深蓝框*/
+.hr-btn-group em {padding-right:10px;}
+.hr-btn-group .layui-btn {height:28px;line-height:28px;padding:0 10px;}

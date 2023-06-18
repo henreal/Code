@@ -1,0 +1,238 @@
+﻿@charset "utf-8";
+/**
+ * CSS Document for Layui Frame
+
+ * Central Integration Working Platform on Smart Construction Site.
+ * http://www.henreal.com
+ * e-Mail: henreal@qq.com WeChat：Henreal-Net
+ * Henreal CIWP V1.0.2 beta23 Build 20180228
+ * Copyright © 2005-2018 Henreal Network Technology. All Rights Reserved
+ */
+ /** 适用于：Henreal CMS 后台管理iFrame版本 */
+ html, body {font-size:14px;}
+.hr-body-w800 {width:800px;margin:0 auto; box-sizing:border-box;}
+.hr-workZones {width:100%;box-sizing:border-box;}
+.hr-help {color:#078; cursor:pointer;} .hr-help:hover {color:#bbb;}
+.hr-help i {position: relative;top:2px;color:#f30;font-size:15px;} .hr-help:hover i {color:#bbb;}
+
+.hr-pop-tabs {width:100%;clear:both;}		/*选项卡*/
+.hr-pop-tabs .layui-tab {margin:0;}
+.hr-pop-fix {width:100%;position:fixed;left:0;right:0;bottom:0;box-sizing:border-box;padding:5px 10px;border-top:1px solid #ddd;background-color:rgba(255,255,255,0.8);z-index:100;}	/*浮动操作区，用于POP窗口，默认为底部*/
+.hr-fix-top {top:0;bottom:initial;border:0;border-bottom:1px solid #ddd;}
+
+.hr-hover {display:block;text-transform: uppercase;text-decoration: none; position: relative;cursor:pointer;transition: all 0.3s;-webkit-transition:all 0.3s;}
+.hr-hover:before, .hr-hover:after {content: '';border-top: solid 3px #0a0;position: absolute;top: 0;width:0;left:50%;right:50%;}
+.hr-hover:hover:before, .hr-hover:hover:after {width:100%;left:0;right:0;}
+.hr-hover:before, .hr-hover:after {-webkit-transition: all 0.3s ease-out;transition: all 0.3s ease;}
+.hr-hover-bottom:before, .hr-hover-bottom:after {top:auto;bottom:0;}
+
+.hr-color-true {color:#080;}
+.hr-color-false {color:#f30;}
+
+.hr-err {width:80%;margin:0 auto;box-sizing:border-box;padding:20px;}
+.hr-err em:first-child {padding-right:20px;font-size:80px;color:#f60;}
+.hr-err em:last-child {flex-grow:2;font-size:20px;color:#000;}
+.hr-tips_dl {box-sizing:border-box;padding:20px;display:flex;position:absolute;top:30%;left:15%;right:15%;border:1px solid #ddd;background-color:#ffffeb;border-radius:8px;z-index:5}
+.hr-tips_dl dt {font-size:3rem;padding-right:15px;line-height:1;color:#f30;} .hr-tips_dl dd h4 {font-size:1.2rem;color:#900;} .hr-tips_dl dd p {line-height:2;color:#777;}
+
+.hr-setup-bar {width:100%;display:flex;align-items:center;padding:5px 0;}
+.hr-setup-bar:hover {background-color:rgba(0,0,0,0.05);}
+.hr-setup-bar .hr-setup-title {width:18%;padding-right:5px;text-align:right;}
+.hr-setup-bar .hr-setup-value {width:77%;background-color:rgba(0,0,0,0.05);box-sizing:border-box;padding:5px} .hr-setup-bar .hr-setup-value span {word-wrap:break-word;word-break:break-all;}
+.hr-setup-bar .hr-setup-btn {padding-left:10px;width:5%}
+
+.hr-posTips {height:0;width:0;overflow:hidden;margin:0;padding:0;}/*定位点*/
+
+.hr-view-dl dl {display:flex;align-items:center;border-bottom:1px solid #f2f2f2;}		/* 预览 */
+.hr-view-dl dl:nth-child(2n+1) {background-color:rgba(0,0,0,0.05);}
+.hr-view-dl dt, .hr-view-dl dd {box-sizing:border-box;}
+.hr-view-dl dt {width:120px;text-align:right;padding:5px;color:#777}
+.hr-view-dl dd {flex:1 1;box-sizing:border-box;padding:5px;}
+.hr-view-dl dl.dl-gap {background-color:transparent;height:15px;overflow:hidden;border-top:1px solid #eee;border-bottom:1px solid #eee;}
+.hr-view-dl dd.lay-input .layui-form-switch {margin-top:0;padding:0 2px}
+.hr-view-dl dl.dl-text {align-items:stretch;}
+
+/*-- 重定义Layui Style --*/
+.layui-form .inputTit {padding:8px 1px;text-align:right;}
+.layui-form .inputTit i {color:#f60;position: relative;top:2px;}
+.layui-table td {font-size:13px;}
+.layui-form-label {width:100px;padding:8px 5px;}
+.layui-form-pane .layui-form-label {padding:8px 5px;}
+.layui-table-body .layui-none {font-size:1.3rem;color:#f30}
+.hr-bord {border:1px solid #ddd;padding:1px 0 5px 0;}
+
+.layer-hr-wr {border:0px solid #196590;}
+.layer-hr-wr .layui-layer-title {background:#f80;color:#fff;font-size:16px;border:none;}
+.layer-hr-wr .layui-layer-setwin {top:10px;}
+.layer-hr-wr .layui-layer-setwin .layui-layer-min:hover cite {background-color:#FFF;}
+
+/*-- 错误页 Error Page --*/
+.error {margin:20px auto;width:450px;padding:20px;box-sizing:border-box;border:1px solid #ccc;background-color:rgba(255,255,255,0.8);align-items:stretch;}
+.error .errorIcon {font-size:90px;color:#f60;padding-right:15px;}
+.error .errorInfo h2 {font-size:18px;}
+.error .errorInfo p {line-height:35px;color:#F60; font-size:14px;}
+.error .reindex {display:flex;}
+.error .reindex a {width:115px; height:35px; font-size:14px; font-weight:bold; color:#fff; background:#3c95c8; display:block; line-height:35px; text-align:center;border-radius: 3px; behavior:url(js/pie.htc);margin:20px 20px 0 0;}
+
+/*-- 管理后台Frame Top --*/
+.frame_Head {position: relative;z-index:100;overflow:hidden;background:#012 url(../admin/topBG_right.png) center right no-repeat;color:#fff}
+.frame_Head dl {line-height:70px;background:url(../admin/logo.png) center left no-repeat;}
+.frame_Head dt {padding:0 10px;color:#ffa2a2;font-size:1.9rem; cursor:pointer;}
+.frame_Head dd.navTitle {font-size: 1.8rem; font-family:Georgia;font-weight:bold;} .frame_Head dd.more {padding:0 10px; cursor:pointer;} .frame_Head dd.more i {font-size:1.1rem;}
+.frame_Head dd.search input {height:25px;line-height:25px;padding:0 8px 0 12px;border:1px solid #900;border-top-left-radius:27px;border-bottom-left-radius:27px;color:#900}
+.frame_Head dd.soBtn button {width:35px;height:27px;line-height:27px;cursor:pointer;border:1px solid #900;background-color:#900;color:#fff;border-top-right-radius:27px;border-bottom-right-radius:27px;padding:0 10px 0 5px;}
+.frame_Head dd.userbar em {background:rgba(255, 255, 255, 0.5) url(../images/face04.png) center no-repeat;width:2.2rem;height:2.2rem;border-radius:100%;margin:0 auto;background-size:100%;border: 1px solid #fff;}
+.frame_Head dd.userbar tt {text-align:center;width:5rem;}
+
+.top_nav li {height:70px;text-align:center;} .top_nav li h3 {font-size:0.9rem;}
+.top_nav li a {width:87px;height:70px;color:#fff;} .top_nav li a.selected {background:url(../admin/navbg.png) center top no-repeat;}
+.top_nav li a:hover {color:#2ce;background: none repeat scroll 0% 0% rgba(0, 51, 51,0.8);}
+.top_nav li img {margin-top:10px;width:28px;}
+
+
+/*-- 管理后台Frame Left --*/
+.frame_Left {position:absolute;width:150px;left:0;top:70px;bottom:0;background-color:#edf9ff;overflow:hidden;}
+.frame_Left .MenuBox, .frame_Main .ManualBox, .frame_Main .MainBox {width:100%;height:100%;box-sizing: border-box;}
+.frame_Left .MenuBox {overflow-y:auto;overflow-x: hidden;min-width:inherit;}
+.frame_Left .MenuBox .layui-side-menu , frame_Left .MenuBox .layui-side-scroll {width:100%;}
+.MenuTitle {height:39px;background-color:#003e65;color:#fff;overflow:hidden;}
+.MenuTitle em {padding-left:5px;height:33px;line-height:33px;overflow:hidden;} .MenuTitle em i {font-size:1.3rem;color:#1de;position: relative;top:3px;}
+
+.hr-nav-skin {background-color:#D4E7F0;width:100%;}
+.hr-nav-skin .layui-nav-item {line-height:35px;}
+.hr-nav-skin .layui-nav-item a {color:#222;padding:0 10px;height:35px;line-height:35px;text-decoration:none;}
+.hr-nav-skin .layui-nav-item a:hover {background-color:#078}
+
+.hr-nav-skin .layui-nav-child dd:hover {background-color:#09b}
+.hr-nav-skin .layui-nav-child a:hover {color:#f60;}
+.hr-nav-skin .layui-nav-child dd {border-bottom:1px solid #edf9ff;border-right:1px solid #d4e7f0;}
+.hr-nav-skin .layui-nav-child dd a {padding-left:10px;}
+.hr-nav-skin .layui-nav-itemed>a, .hr-nav-skin .layui-nav-title a, .hr-nav-skin .layui-nav-title a:hover {color: #f00!important;}
+.hr-nav-skin .layui-nav-itemed .layui-nav-child .layui-nav-itemed dd {border-right:0;}
+.hr-nav-skin .layui-nav-itemed .layui-nav-child .layui-nav-itemed dd a {padding-left:20px;}
+.hr-nav-skin .layui-nav-itemed>.layui-nav-child {background-color: #fff!important;}
+.hr-nav-skin .layui-nav-more {border-top-color:#078;}
+.hr-nav-skin .layui-nav-mored, .hr-nav-skin .layui-nav-itemed > a .layui-nav-more {border-color: transparent transparent #033;}
+.hr-nav-skin .layui-nav-child dd.layui-this, .hr-nav-skin .layui-nav-child dd.layui-this a, .hr-nav-skin .layui-this, .hr-nav-skin .layui-this>a, .hr-nav-skin .layui-this>a:hover {background-color:transparent;color:#fff;}
+.hr-nav-skin .layui-nav-child dd.layui-this {border-left:5px solid #f30;background-color:#078;background-image:url(/Static/admin/sj.png);margin-right:-1px;background-position:right center;background-repeat:no-repeat;}
+.hr-navmenu-main {border-bottom:1px solid #edf9ff;}
+.hr-navmenu-main i {font-size:1rem;}
+.hr-navmenu-main u {display:inline;padding:0 5px;}
+
+/*-- 管理后台Frame Start --*/
+.frame_Main {position:absolute;left:150px;top:70px;right:0;bottom:0;overflow:hidden;}
+.frame_Main .MainBox {border:0;overflow:auto;}
+.mainindex{padding:20px; overflow:hidden;}
+.welinfo{height:32px; line-height:32px; padding-bottom:8px;}
+.welinfo span{float:left;}
+.welinfo b{padding-left:8px;}
+.welinfo a{color:#3186c8;} .welinfo a:hover{color:#F60;}
+.welinfo i{font-style:normal; padding-left:8px;}
+.xline{border-bottom:solid 1px #dfe9ee; height:5px;}
+
+/*-- 管理登陆 --*/
+.loginNav {background-color:rgba(0, 51, 85, 0.3);height:47px;line-height:47px;width:100%;color:#ccc;border-bottom:1px solid rgba(108, 224, 255, 0.3);overflow:hidden;}
+.loginNav a {padding:0 10px;color:#ccc;line-height:47px;}  .loginNav a:hover {color:rgba(108, 224, 255, 0.87);background-color:rgba(255,255,255,0.1)}
+.loginNav .logoPic {display:block;width:50px;height:30px;line-height:47px;background:url(../images/uLogo1.png) center no-repeat;background-size:auto 100%;}
+.loginNav li b {padding:0 5px;color:#777;font-family:Georgia}
+
+.loginBox {position:absolute;height:500px;width:900px;border:0px solid #ccc;left:50%;top:50%;margin:-300px 0 0 -450px;background-color:rgba(108, 224, 255, 0)}
+.loginTips {color:#fff;}
+.loginTips h1 {text-align:center;background:url(../images/Wmu2LogoB.png) center no-repeat;background-size:100%}
+.loginTips h1 em {display:block;height:100px;}
+.loginTips h2 {font-size:36px;text-align:center;margin-top:30px}
+.loginTips h2 span {font-family:Georgia}
+.loginform {width:380px;background-color:rgba(255,255,255,1);border-radius:5px;padding:20px 0;box-sizing:border-box;}
+.loginform li {padding:0 25px;}
+.loginTit {font-size:20px;line-height:60px;}
+.loginTit span {font-size:15px;font-family:Georgia;color:#aaa;padding:0 0 0 15px;}
+.loginInput {width:90%;height:40px;line-height:40px;padding:0 10px;border-radius:3px ;border:1px solid #098;}
+.LoginFooter {width:100%;height:50px;line-height:50px;overflow:hidden;position:absolute;z-index:1001;background-color:rgba(0,0,0,0.7);bottom:0}
+.LoginFooter .loginbm {text-align:center;color:#ccc;}
+.LoginFooter .loginbm a {color:#098;} .LoginFooter .loginbm a:hover {color:#059;}
+#TouchQR {background:#fff;padding:15px;}
+.subBtn .hr-btn {font-size:16px;line-height:30px;width:120px}
+.subBtn label {margin-left:15px;font-size:14px;}
+
+/*-- 管理工作区 --*/
+.iframe-nav {border-bottom:1px solid #d7e4ea;font-size:14px;background-color:#edf6fa;padding:0 10px;}	/*-- 导航 --*/
+.iframe-nav .navPath {color:#078;font-size:14px;}
+.iframe-nav .hr-row {height:39px;line-height:39px;vertical-align:middle;}
+.iframe-nav .hr-row:nth-child(2) {flex-grow:2;}
+.iframe-nav cite, .iframe-nav .layui-breadcrumb a cite {display:inline-flex;}
+
+.iframe-nav hgroup {outline:none;line-height:41px;height:39px;overflow:hidden;}
+.iframe-nav .navBtn .navLayer i {font-size:20px;color:#0a0}
+
+.layui-form-checked[lay-skin=primary] i {border-color: #678;background-color: #078;color: #fff;}		/* 勾选框 */
+.layui-table-cell {padding:0 5px;}
+.layui-table, .layui-table-view {margin:5px 0;}
+.layui-btn-disabled, .layui-btn-disabled:active, .layui-btn-disabled:hover {background-color:#e7e7e7;color:#bbb}
+
+/*-- List Page --*/
+.pageBar {box-sizing:border-box;padding-top:15px;}
+.pagin {position:relative;display:flex;align-items:center;box-sizing:border-box;}
+.pagin .pageTips {line-height:200%;}
+.pagin .blue {color:#056dae;font-style:normal;}
+.pagin .paginList, .pagin .paginList li, .pagin .paginList a, .pagin .paginList span {display:block;box-sizing:border-box;line-height:30px;height:32px;}
+.pagin .paginList {padding-left:12px;display:flex;align-items:center;}
+.pagin .paginList a, .pagin .paginList span {width:34px;height:32px;border:1px solid #DDD; text-align:center;border-left:none;color:#39d;}
+.pagin .paginList li i {position:relative;top:1px;}
+.pagin .paginList span.pagepre, .pagin .paginList span.pagenxt {color:#ccc}
+
+.pagin .paginList li:first-child a, .pagin .paginList li:first-child span {border-left:1px solid #ddd;border-bottom-left-radius:5px;border-top-left-radius:5px;}
+.pagin .paginList li:last-child a, .pagin .paginList li:last-child span {border-bottom-right-radius:5px;border-top-right-radius:5px;}
+.pagin .paginList li.current, .pagin .paginList li.current span {background:#39d; cursor:default;color:#fff;}
+
+.pagin .paginList li:hover {background:#9df;}
+.pagin .paginList .paginItem.more, .pagin .paginList .paginItem.more a:hover{ cursor:default;}
+.pagin .paginList .paginItem.more:hover {background:#FFF;}
+.pagin .paginList .paginItem.more a {color:#737373;}
+
+ /* layui.layer */
+.layer-hr-box {margin:15px;}
+.layer-hr {border:0px solid #196590;}
+.layer-hr .layui-layer-title {background:#078;color:#fff;font-size:16px;border:none;}
+.layer-hr .layui-layer-setwin {top:10px;}
+.layer-hr .layui-layer-setwin .layui-layer-min:hover cite {background-color:#FFF;}
+.layer-hr .layui-layer-setwin .layui-layer-close1 {background-position:-99px -40px;} /* 关闭按钮 */
+.layer-hr .layui-layer-setwin .layui-layer-close1:hover {opacity:1;background-position:-80px -40px;}
+
+.layer-hr-wr {border:0px solid #196590;}
+.layer-hr-wr .layui-layer-title {background:#f80;color:#fff;font-size:16px;border:none;}
+.layer-hr-wr .layui-layer-setwin {top:10px;}
+.layer-hr-wr .layui-layer-setwin .layui-layer-min:hover cite {background-color:#FFF;}
+
+.layer-hr .layui-layer-btn {text-align:right;border-top:1px solid #eee}
+.layer-hr .layui-layer-btn a {background:#37b;color:#fff;border:1px solid #26a;border-radius:4px;}
+.layer-hr .layui-layer-btn a:hover {background:#286090;}
+.layer-hr .layui-layer-btn a.layui-layer-btn1 {background:#fff;border:1px solid #ccc;color:#333}
+.layer-hr .layui-layer-btn a.layui-layer-btn1:hover {background:#ccc;border:1px solid #bbb;}
+.layer-hr .layui-layer-content {background-color:transparent;}			/* 此为MSG方法时背景色 */
+.layui-form-select dl {max-height:200px;}
+
+/*-- 列表筛选部分 --*/
+.soBox .searchBtn {vertical-align:top} .soBox .layui-inline {margin-bottom:8px;}
+.soBox .layui-form-select dl {top: 31px;} .soBox .layui-input {height: 30px;}
+.soBox .layui-btn {height: 30px;line-height: 30px;padding: 0 12px;} .soBox .layui-form-select dl dd {padding: 0 5px;line-height: 30px;}
+
+.hr-form-edit {margin-bottom:10px;box-sizing:border-box;}	 /* 表单编辑器 */
+.hr-form-btn {height: 30px;line-height: 30px;padding:0 5px;margin-top:5px;}	 /* 表单编辑器 */
+.hr-form-postBtn .layui-btn {height: 30px;line-height: 30px;padding: 0 12px;}
+
+/*-- 预览窗口 --*/
+.viewTitle h2 {padding-bottom:8px;font-size:1.3rem;border-bottom:1px solid #f30}
+.viewContent {line-height:1.8;width:100%;word-wrap:break-word;}
+.viewInfo dl {height:2.5rem;line-height:2.5rem;border-bottom:1px solid #ddd;margin-bottom:15px;color:#999;}
+.viewInfo dt .viewInfo dd {font-size:0.8rem;}
+
+/*-- 通讯录 --*/
+.hr-addbook-box {border:0px solid #F60;background-color: rgba(255,255,255,1);box-sizing: border-box;overflow-y:auto;position:absolute;top:50px;left:0;bottom:0;right:0;z-index:10}
+.hr-addbook-list {overflow-y:auto;}
+.hr-addbook-letter {position:fixed;height:100%;width:25px;right:18px;top:50px;background-color:#e3e3e3;z-index:11}
+.hr-addbook-letter ul {display:flex;text-align:center;flex-wrap:wrap;}
+.hr-addbook-letter li {display:block;text-align:center;width:100%;font-size:0.8rem;cursor: pointer;}
+.sort_letter {line-height: 30px;padding-left: 20px;color:#787878;font-size:1.2rem;border-bottom:1px solid #ddd;background-color:#eee;}
+.sort_box {width:100%;margin-top: 45px;overflow: hidden;box-sizing:border-box;}
+.sort_list {padding:3px 20px; position: relative; border-bottom:1px solid #ddd; line-height:20px; box-sizing:border-box;cursor: pointer;}
+.sort_list .num_name b {font-size:0.8rem;color:#999;padding-left:5px;font-style:normal; font-weight:normal;}

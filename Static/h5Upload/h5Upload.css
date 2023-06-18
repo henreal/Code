@@ -1,0 +1,20 @@
+/*css3*/
+
+.upbox3 {width:180px; height:140px; float:left; background:#f7f8fa; text-align:center; position:relative;}
+.uplo-a1 {display: block;width:82px;height:30px;border:1px solid #407431;border-radius: 3px;text-align:center;line-height: 30px;color:#4074el; margin:45px 0 10px 48px;}
+.a-behind {font-size:12px;color:#666;}
+.h5u_file {width:82px;height:30px;line-height:30px;margin-top:30px; display: inline-block;background:rgba(255,255,255,0.8); border:1px solid #18c;border-radius: 4px;overflow: hidden;color: #18C;text-decoration: none;text-indent: 0; font-size:12px;}
+.h5u_file input {position: absolute;font-size: 100px; right: 0; top: 0;opacity: 0;}
+.h5u_file:hover {background: #AADFFD;border-color: #78C3F3;color: #004974;text-decoration: none;}
+
+.upbox3 img{max-height:100%;max-width:100%; width:auto;position:absolute;left:0;z-index: 10;}
+.upbox3 .options{width:100%;height:100%;position:absolute;background:rgba(0,0,0,0.3);z-index:20;}
+.upbox3 .btn-del{width:80px; height:30px;line-height:30px;background:rgba(59,57,227,1.00);color:#fff;display:inline-block;border-radius: 3px;top:28px;position:absolute;left:50%;margin-left:-40px;cursor:pointer;}
+.upbox3 .btn-big{width:80px; height:30px;line-height:30px;background:rgba(219,136,17,1.00);color:#fff;display:inline-block;border-radius: 3px;position:absolute; top:70px;left:50%;margin-left:-40px;cursor:pointer;}
+.upbox3 .hide{display:none;}
+.upbox3 canvas{position:absolute;left:0;top:0;display: none;}
+.upbox3 .status{ width:100%; position:absolute; height:20px;line-height:20px;bottom:0;font-size:12px;z-index:30;background:rgba(0,0,0,0.3);}
+.upbox3 .status.success{color:rgba(9,126,26,1.00);}
+.upbox3 .status.normal{color:blue;}
+.upbox3 .status.error{color:red;}
+.js-upbtn{z-index:20;position:absolute;width:100%;height:100%;left:0;top:0;}

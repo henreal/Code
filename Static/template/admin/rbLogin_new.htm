@@ -1,0 +1,20 @@
+﻿[@HeadHtml_RB_1]
+<form class="layui-form" name="EditForm" id="EditForm" action="">
+	<div class="layui-form-item">
+		<label class="layui-form-label formWarn"><i class="hr-icon">&#xeb5c;</i>标题：</label>
+		<div class="layui-input-block"><input type="text" name="title" value="1111sdfsdf" lay-verify="required" placeholder="请输入标题" class="layui-input" /></div>
+	</div>
+	<em><button type="button" class="layui-btn hr-btn_deon" lay-filter="SendForm" lay-submit="" title="保存"><i class="hr-icon">&#xf0c7;</i>保存</button></em>
+</form>
+
+[@FootHtml_RB_1]
+<script type="text/javascript">
+	layui.use(["form"], function () {
+		var form = layui.form;
+
+		form.on("submit(SendForm)", function(data){	/*提交数据*/
+			console.log("提交44：" + $("#EditForm").serialize());
+		});
+
+	});
+</script>

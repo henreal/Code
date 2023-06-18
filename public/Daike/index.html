@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <link type="text/css" href="/Static/css/hr.common.css?v=1.0.3" rel="stylesheet" media="all">
+    <link type="text/css" href="/Static/css/touch.common.css?v=1.0.1" rel="stylesheet" media="all">
+    <link rel="stylesheet" href="/Static/element-plus/element-plus.2_3_6.css" />
+    <style type="text/css">
+        .footer-nav {position:fixed; bottom: 0; width: 100%; border-top:1px solid #ccc;}
+        .footer-nav .var--box { background: #eee;}
+        .footer-nav .var-bottom-navigation-item--active {background: #4ce; color: #fff;}
+	</style>
+    <script src="/Static/js/vue.global.3_3_4.js?v="></script>
+    <script src="/Static/js/vue-router.global.4_2_2.js?v="></script>
+    <script src="/Static/js/axios.min.1_4_0.js"></script>
+    <script src="/Static/element-plus/element-plus.full.2_3_6.js"></script>
+    <script src="/Static/js/varlet.js"></script>
+</head>
+<body>
+    <div id="app">
+        <Headd></Headd><header></header>
+        <router-view></router-view>
+
+        <var-space :size="[10, 10]">
+            <var-button type="danger" @click="show=!show">消息按钮</var-button>
+            <var-snackbar v-model:show="show">这是一个消息条！！</var-snackbar>
+        </var-space>
+        <div class="hr-gap-20 hr-gapbg"></div>
+        <var-space direction="column" size="large">
+            <var-select placeholder="请选择考核项目" variant="outlined" size="small" v-model="value" @change="selectItem()">
+                <var-option v-for="(item, index) in items" :key="index" :label="item.item" :value="item.id"></var-option>
+            </var-select>
+            <var-select placeholder="请选择课程" variant="outlined" size="small" v-model="course" @click="getCourse()">
+                <var-option v-for="(val, key) in courses" :key="key" :label="val.course" :value="val.id"></var-option>
+            </var-select>
+            <var-skeleton :title="loading" :loading="loading">
+            </var-skeleton>
+            <var-button type="info" @click="getKecheng()">取课程</var-button>
+        </var-space>
+        {{show}}，{{errmsg}}<br>
+        <var-button type="primary" :loading="read" @click="getCourse()">加载</var-button>
+        <br><br>
+        <var-loading description="LOADING" :loading="loading">有内容时</var-loading>
+        {{loading}}__{{read}}<br>{{courses}}<br>课程：{{course}}
+
+        <div class="footer-nav">
+            <var-bottom-navigation v-model:active="footer_nav">
+                <var-bottom-navigation-item label="首页" icon="home-outline" @click="backHome('/Touch/Index.html')"></var-bottom-navigation-item>
+                <var-bottom-navigation-item label="消息" icon="message-processing-outline"></var-bottom-navigation-item>
+                <var-bottom-navigation-item label="设置" icon="cog-outline"></var-bottom-navigation-item>
+                <var-bottom-navigation-item label="个人中心" icon="account-circle-outline"></var-bottom-navigation-item>
+            </var-bottom-navigation>
+        </div>
+    </div>
+<script>
+    const { createApp,ref } = Vue;
+    const Headd = {
+        template:`
+        <header class="hr-rows hr-header">
+            <nav class="navBack"><em><i class="hr-icon">&#xec58;</i></em></nav>
+            <nav class="navTitle"><span v-html="title">rrrr</span></nav>
+            <nav class="navMenu"><em><i class="hr-icon">&#xf329;</i></em></nav>
+        </header>
+        `
+    };
+    const Header = {
+        template:`
+        <h2>这是顶部基础</h2>
+        `
+    }
+    const routes = [    //路由规则
+        {path:'/', component:Header},
+        {path:'/home', component:Headd}
+    ]
+    const router = VueRouter.createRouter({
+        history: VueRouter.createWebHashHistory(),
+        routes,
+    });
+    const app = createApp({
+        data() {
+            return {
+                name: '对换课',
+                title: '我的对换课',
+                YGDM: 810000,
+                YGXM: '恒锐网络',
+                lists:[],
+                value:null,
+                options:[
+                    {value:'test',label:'11'}
+                ],
+                loading:false,
+                show:false,
+                errmsg:'',
+                footer_nav:0,
+                load1:false, read:false,
+                items:[], courses:[],
+                course:0, text1:'dddd',
+            }
+        },components:{      //注册组件
+            Headd, Header
+        },created(){
+            document.title = this.title;
+            axios.get('/API/Items/Index.html').then((res)=>{  //接口取当前用户的考核项目：仅取Template=TempTableA
+                console.log(res.data);
+                this.items = res.data.data;
+            });
+            //读取文本文件：
+            this.text1 = this.readFile('demo.html');
+        },methods:{
+            selectCourse(){
+                console.log(this.YGDM);
+                var that = this;
+                axios.get('/API/Items.html').then(function(res){
+                    console.log(res.data);
+                    that.lists = res.data.data;
+                });
+            },
+            selectItem(){   //选择项目后执行，取当前用户、当前项目的课程
+                console.log('ID：',this.value); var that=this;
+                axios.get('/API/Course.html?item='+this.value).then(function(res){
+                    that.courses = res.data.data;
+                });
+            },getKecheng(){
+                this.loading = !this.loading;
+                this.lists=[
+                    {'name':'没有演示'},
+                ];
+                var that = this;
+                axios.get('/API/Items.html').then(function(res){    //取课程列表数据
+                    that.lists = res.data;
+                    console.log(res);
+                    that.errmsg = res.data.errmsg;
+                });
+            },backHome(href){
+                console.log(href);
+                location.href=href;
+            },getCourse(){
+                var id=this.course;
+                console.log(id);
+            },readFile (filePath){
+                // 创建一个新的xhr对象
+                let xhr = null, okStatus = document.location.protocol === 'file' ? 0 : 200
+                xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP')      
+                xhr.open('GET', filePath, false)
+                xhr.overrideMimeType('text/html;charset=utf-8')
+                xhr.send(null)
+                return xhr.status === okStatus ? xhr.responseText : null
+            },
+        }
+    });
+    app.use(ElementPlus);   //引入Element Plus
+    app.use(Varlet);        //引入Varlet UI
+    app.use(router);        //创建并挂载根实例
+    app.mount('#app');      //渲染
+</script>
+</body>
+</html>

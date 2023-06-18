@@ -1,0 +1,80 @@
+﻿[@HeadHtml_RB_1]
+<style type="text/css">
+	.verify-pic {position: relative;top:-8px;left:12px; cursor: pointer;}
+</style>
+<header class="loginNav">
+	<ul class="hr-rows hr-sides-x10">
+		<li class="logo"><span class="logoPic"></span></li>
+		<li class="hr-row-fill"><span></span><b>[@Site_Name]</b></li>
+		<li><a class="hr-hover" href="[@Site_Url]" target="_blank"><i class="hr-icon">&#xebad;</i>首页</a></li>
+		<li><a class="hr-hover TouchQR" href="javascript:void(0);"><i class="hr-icon">&#xebb8;</i>触屏版</a></li>
+		<li><a class="hr-hover WechatScan" href="javascript:void(0);" title="企业微信扫码登陆"><i class="hr-icon">&#xf029;</i>企业微信登陆</a></li>
+	</ul>
+</header>
+<div class="hr-rows loginBox">
+	<div class="loginTips"><h1><em></em></h1><h2><span>[@Site_Name]</span></h2></div>
+	<form class="layui-form" id="loginform">
+	<ul class="loginform">
+		<li class="loginTit"><b>教师登陆</b><span>Teacher Login</span></li>
+		<li class="layui-form-item"><div class="layui-input-inline"><input name="Name" type="number" class="loginInput loginuser" lay-verify="number" autocomplete="off" value="" placeholder="教师工号" /></div></li>
+		<li class="layui-form-item"><div class="layui-input-inline"><input name="Pass" type="password" class="loginInput loginpwd" autocomplete="on" value="" placeholder="密码" onclick="javascript: this.value = ''" /></div></li>
+		<li class="layui-form-item verify-code">
+			<div class="layui-input-inline" style="width:80px;">
+				<input name="vcode" type="text" class="loginInput logincap" value="" placeholder="验证码" />
+				<input name="result" type="hidden" class="result" value=""/>
+			</div>
+			<div class="layui-form-mid"><em class="verify-pic"><img src="/API/Captcha.htm" class="hr-captcha" title="看不清，更换验证码"></em></div>
+			<div class="layui-form-mid"><span class="tips"></span></div>
+		</li>
+		<li class="hr-rows subBtn">
+			<div class="layui-input-inline"><em name="loginPost" class="layui-btn layui-btn-radius hr-btn" lay-filter="SendForm" lay-submit="">登　录</em></div>
+			<div class="layui-input-inline"><input name="SavePass" type="checkbox" value="True" checked="checked" lay-skin="primary" title="记住密码" /></div>
+			<div class="layui-input-inline"><i class="hr-icon">&#xf059;</i><a href="javascript:void(0);" class="ForgetPass">忘记密码？</a></div>
+		</li>
+		<input name="rand" type="hidden" class="rand" value="" />
+	</ul>
+</form>
+</div>
+<footer class="LoginFooter"><div class="loginbm">[@FootCopyRight]</div></footer>
+<div id="TouchQR" class="hide" style="display: none;"></div>
+[@FootHtml_RB_1]
+<script type="text/javascript" src="[@Web_Dir]Static/js/jquery.qrcode.min.js"></script>
+<script type="text/javascript" src="http://rescdn.qqmail.com/node/ww/wwopenmng/js/sso/wwLogin-1.0.0.js"></script>
+<script type="text/javascript">
+	if (window != top) { top.location.href = window.location.href; }
+	$("#TouchQR").qrcode({ render: "canvas", width: 180, height: 180, text: "[@Site_Url]/Touch/Index.html", });		//若非H5浏览器将render更换为“table”
+	var num1 = new Date().getTime(); $(".rand").val(num1);  //获取时间戳;	
+	layui.use(["layer", "form"], function () {
+		var layer = layui.layer, form = layui.form;
+		$(".TouchQR").on("click", function () {		//触屏版二维码
+			layer.open({ type: 1, title: false, closeBtn: 0, shadeClose: true, skin:"layui-layer-nobg", content: $("#TouchQR") });
+		});	
+		$(".ForgetPass").on("click", function () { layer.alert("请联系管理员重置密码！", {icon:6,title:"系统提示"}); });
+		$(".WechatScan").on("click", function () {
+			layer.alert("<div id=\"loginQYQR\">企业微信二维码</div>",{btn:"关闭",offset:"20%",title:"企业微信扫二维码"});
+			window.WwLogin({"id":"loginQYQR","appid":"[@qyid]","agentid":"[@qyAgentId]",
+				"redirect_uri":"[@Site_Url]/API/WechatQY/Scan.html","state" :"qr_login@henreal"
+			});
+		});
+		form.on("submit(SendForm)", function(PostData){		//*提交数据*/
+			var load1 = layer.load(5);
+			$.getJSON("[@Web_Dir]Desktop/Login/ChkLogin.html", $("#loginform").serialize(), function (res) {
+				layer.msg(res.errmsg,{icon:res.icon,}); layer.close(load1);
+				if(res.err){ location.href = "Index.html"; }
+			});
+		});
+	});
+	$(".hr-captcha").on("click",function(){
+		$(this).attr("src", "/API/Captcha.htm?r=" + Math.random());
+	});
+	$(".logincap").bind("input propertychange", function () {
+		var thisNext = $(".tips"), vCode = $(this).val();
+		$.getJSON("/API/Captcha.htm?Action=GetCode", { code: vCode }, function (reResult) {
+			if (reResult.errcode == 0) {
+				thisNext.html("<i class=\"hr-icon\">&#xebc5;</i>"); thisNext.css("color","#080"); $(".result").val(true);
+			} else {
+				thisNext.html("<i class=\"hr-icon\">&#xebc6;</i>"); thisNext.css("color", "#f30"); $(".result").val(false);
+			}
+		});
+	});
+</script>

@@ -1,0 +1,886 @@
+﻿<%
+'============================================
+'函数名：GetPinyinEncoded()【将中文字符串转为拼音】
+'--------------------------------------------
+Response.LCID = 2052		'解决UTF-8中ASC中文编码失效的问题
+
+Dim ZH_d, ZH_e, ZH_a, ZH_b, ZH_i, ZH_Type
+ZH_Type = 1		'//0-全小写 1-首字母大写  
+Set ZH_d = CreateObject("Scripting.Dictionary")		'建立字典库
+If ZH_Type = 0 Then
+	ZH_d.add "a",-20319 
+	ZH_d.add "ai",-20317 
+	ZH_d.add "an",-20304 
+	ZH_d.add "ang",-20295 
+	ZH_d.add "ao",-20292 
+	ZH_d.add "ba",-20283 
+	ZH_d.add "bai",-20265 
+	ZH_d.add "ban",-20257 
+	ZH_d.add "bang",-20242 
+	ZH_d.add "bao",-20230 
+	ZH_d.add "bei",-20051 
+	ZH_d.add "ben",-20036 
+	ZH_d.add "beng",-20032 
+	ZH_d.add "bi",-20026 
+	ZH_d.add "bian",-20002 
+	ZH_d.add "biao",-19990 
+	ZH_d.add "bie",-19986 
+	ZH_d.add "bin",-19982 
+	ZH_d.add "bing",-19976 
+	ZH_d.add "bo",-19805 
+	ZH_d.add "bu",-19784 
+	ZH_d.add "ca",-19775 
+	ZH_d.add "cai",-19774 
+	ZH_d.add "can",-19763 
+	ZH_d.add "cang",-19756 
+	ZH_d.add "cao",-19751 
+	ZH_d.add "ce",-19746 
+	ZH_d.add "ceng",-19741 
+	ZH_d.add "cha",-19739 
+	ZH_d.add "chai",-19728 
+	ZH_d.add "chan",-19725 
+	ZH_d.add "chang",-19715 
+	ZH_d.add "chao",-19540 
+	ZH_d.add "che",-19531 
+	ZH_d.add "chen",-19525 
+	ZH_d.add "cheng",-19515 
+	ZH_d.add "chi",-19500 
+	ZH_d.add "chong",-19484 
+	ZH_d.add "chou",-19479 
+	ZH_d.add "chu",-19467 
+	ZH_d.add "chuai",-19289 
+	ZH_d.add "chuan",-19288 
+	ZH_d.add "chuang",-19281 
+	ZH_d.add "chui",-19275 
+	ZH_d.add "chun",-19270 
+	ZH_d.add "chuo",-19263 
+	ZH_d.add "ci",-19261 
+	ZH_d.add "cong",-19249 
+	ZH_d.add "cou",-19243 
+	ZH_d.add "cu",-19242 
+	ZH_d.add "cuan",-19238 
+	ZH_d.add "cui",-19235 
+	ZH_d.add "cun",-19227 
+	ZH_d.add "cuo",-19224 
+	ZH_d.add "da",-19218 
+	ZH_d.add "dai",-19212 
+	ZH_d.add "dan",-19038 
+	ZH_d.add "dang",-19023 
+	ZH_d.add "dao",-19018 
+	ZH_d.add "de",-19006 
+	ZH_d.add "deng",-19003 
+	ZH_d.add "di",-18996 
+	ZH_d.add "dian",-18977 
+	ZH_d.add "diao",-18961 
+	ZH_d.add "die",-18952 
+	ZH_d.add "ding",-18783 
+	ZH_d.add "diu",-18774 
+	ZH_d.add "dong",-18773 
+	ZH_d.add "dou",-18763 
+	ZH_d.add "du",-18756 
+	ZH_d.add "duan",-18741 
+	ZH_d.add "dui",-18735 
+	ZH_d.add "dun",-18731 
+	ZH_d.add "duo",-18722 
+	ZH_d.add "e",-18710 
+	ZH_d.add "en",-18697 
+	ZH_d.add "er",-18696 
+	ZH_d.add "fa",-18526 
+	ZH_d.add "fan",-18518 
+	ZH_d.add "fang",-18501 
+	ZH_d.add "fei",-18490 
+	ZH_d.add "fen",-18478 
+	ZH_d.add "feng",-18463 
+	ZH_d.add "fo",-18448 
+	ZH_d.add "fou",-18447 
+	ZH_d.add "fu",-18446 
+	ZH_d.add "ga",-18239 
+	ZH_d.add "gai",-18237 
+	ZH_d.add "gan",-18231 
+	ZH_d.add "gang",-18220 
+	ZH_d.add "gao",-18211 
+	ZH_d.add "ge",-18201 
+	ZH_d.add "gei",-18184 
+	ZH_d.add "gen",-18183 
+	ZH_d.add "geng",-18181 
+	ZH_d.add "gong",-18012 
+	ZH_d.add "gou",-17997 
+	ZH_d.add "gu",-17988 
+	ZH_d.add "gua",-17970 
+	ZH_d.add "guai",-17964 
+	ZH_d.add "guan",-17961 
+	ZH_d.add "guang",-17950 
+	ZH_d.add "gui",-17947 
+	ZH_d.add "gun",-17931 
+	ZH_d.add "guo",-17928 
+	ZH_d.add "ha",-17922 
+	ZH_d.add "hai",-17759 
+	ZH_d.add "han",-17752 
+	ZH_d.add "hang",-17733 
+	ZH_d.add "hao",-17730 
+	ZH_d.add "he",-17721 
+	ZH_d.add "hei",-17703 
+	ZH_d.add "hen",-17701 
+	ZH_d.add "heng",-17697 
+	ZH_d.add "hong",-17692 
+	ZH_d.add "hou",-17683 
+	ZH_d.add "hu",-17676 
+	ZH_d.add "hua",-17496 
+	ZH_d.add "huai",-17487 
+	ZH_d.add "huan",-17482 
+	ZH_d.add "huang",-17468 
+	ZH_d.add "hui",-17454 
+	ZH_d.add "hun",-17433 
+	ZH_d.add "huo",-17427 
+	ZH_d.add "ji",-17417 
+	ZH_d.add "jia",-17202 
+	ZH_d.add "jian",-17185 
+	ZH_d.add "jiang",-16983 
+	ZH_d.add "jiao",-16970 
+	ZH_d.add "jie",-16942 
+	ZH_d.add "jin",-16915 
+	ZH_d.add "jing",-16733 
+	ZH_d.add "jiong",-16708 
+	ZH_d.add "jiu",-16706 
+	ZH_d.add "ju",-16689 
+	ZH_d.add "juan",-16664 
+	ZH_d.add "jue",-16657 
+	ZH_d.add "jun",-16647 
+	ZH_d.add "ka",-16474 
+	ZH_d.add "kai",-16470 
+	ZH_d.add "kan",-16465 
+	ZH_d.add "kang",-16459 
+	ZH_d.add "kao",-16452 
+	ZH_d.add "ke",-16448 
+	ZH_d.add "ken",-16433 
+	ZH_d.add "keng",-16429 
+	ZH_d.add "kong",-16427 
+	ZH_d.add "kou",-16423 
+	ZH_d.add "ku",-16419 
+	ZH_d.add "kua",-16412 
+	ZH_d.add "kuai",-16407 
+	ZH_d.add "kuan",-16403 
+	ZH_d.add "kuang",-16401 
+	ZH_d.add "kui",-16393 
+	ZH_d.add "kun",-16220 
+	ZH_d.add "kuo",-16216 
+	ZH_d.add "la",-16212 
+	ZH_d.add "lai",-16205 
+	ZH_d.add "lan",-16202 
+	ZH_d.add "lang",-16187 
+	ZH_d.add "lao",-16180 
+	ZH_d.add "le",-16171 
+	ZH_d.add "lei",-16169 
+	ZH_d.add "leng",-16158 
+	ZH_d.add "li",-16155 
+	ZH_d.add "lia",-15959 
+	ZH_d.add "lian",-15958 
+	ZH_d.add "liang",-15944 
+	ZH_d.add "liao",-15933 
+	ZH_d.add "lie",-15920 
+	ZH_d.add "lin",-15915 
+	ZH_d.add "ling",-15903 
+	ZH_d.add "liu",-15889 
+	ZH_d.add "long",-15878 
+	ZH_d.add "lou",-15707 
+	ZH_d.add "lu",-15701 
+	ZH_d.add "lv",-15681 
+	ZH_d.add "luan",-15667 
+	ZH_d.add "lue",-15661 
+	ZH_d.add "lun",-15659 
+	ZH_d.add "luo",-15652 
+	ZH_d.add "ma",-15640 
+	ZH_d.add "mai",-15631 
+	ZH_d.add "man",-15625 
+	ZH_d.add "mang",-15454 
+	ZH_d.add "mao",-15448 
+	ZH_d.add "me",-15436 
+	ZH_d.add "mei",-15435 
+	ZH_d.add "men",-15419 
+	ZH_d.add "meng",-15416 
+	ZH_d.add "mi",-15408 
+	ZH_d.add "mian",-15394 
+	ZH_d.add "miao",-15385 
+	ZH_d.add "mie",-15377 
+	ZH_d.add "min",-15375 
+	ZH_d.add "ming",-15369 
+	ZH_d.add "miu",-15363 
+	ZH_d.add "mo",-15362 
+	ZH_d.add "mou",-15183 
+	ZH_d.add "mu",-15180 
+	ZH_d.add "na",-15165 
+	ZH_d.add "nai",-15158 
+	ZH_d.add "nan",-15153 
+	ZH_d.add "nang",-15150 
+	ZH_d.add "nao",-15149 
+	ZH_d.add "ne",-15144 
+	ZH_d.add "nei",-15143 
+	ZH_d.add "nen",-15141 
+	ZH_d.add "neng",-15140 
+	ZH_d.add "ni",-15139 
+	ZH_d.add "nian",-15128 
+	ZH_d.add "niang",-15121 
+	ZH_d.add "niao",-15119 
+	ZH_d.add "nie",-15117 
+	ZH_d.add "nin",-15110 
+	ZH_d.add "ning",-15109 
+	ZH_d.add "niu",-14941 
+	ZH_d.add "nong",-14937 
+	ZH_d.add "nu",-14933 
+	ZH_d.add "nv",-14930 
+	ZH_d.add "nuan",-14929 
+	ZH_d.add "nue",-14928 
+	ZH_d.add "nuo",-14926 
+	ZH_d.add "o",-14922 
+	ZH_d.add "ou",-14921 
+	ZH_d.add "pa",-14914 
+	ZH_d.add "pai",-14908 
+	ZH_d.add "pan",-14902 
+	ZH_d.add "pang",-14894 
+	ZH_d.add "pao",-14889 
+	ZH_d.add "pei",-14882 
+	ZH_d.add "pen",-14873 
+	ZH_d.add "peng",-14871 
+	ZH_d.add "pi",-14857 
+	ZH_d.add "pian",-14678 
+	ZH_d.add "piao",-14674 
+	ZH_d.add "pie",-14670 
+	ZH_d.add "pin",-14668 
+	ZH_d.add "ping",-14663 
+	ZH_d.add "po",-14654 
+	ZH_d.add "pu",-14645 
+	ZH_d.add "qi",-14630 
+	ZH_d.add "qia",-14594 
+	ZH_d.add "qian",-14429 
+	ZH_d.add "qiang",-14407 
+	ZH_d.add "qiao",-14399 
+	ZH_d.add "qie",-14384 
+	ZH_d.add "qin",-14379 
+	ZH_d.add "qing",-14368 
+	ZH_d.add "qiong",-14355 
+	ZH_d.add "qiu",-14353 
+	ZH_d.add "qu",-14345 
+	ZH_d.add "quan",-14170 
+	ZH_d.add "que",-14159 
+	ZH_d.add "qun",-14151 
+	ZH_d.add "ran",-14149 
+	ZH_d.add "rang",-14145 
+	ZH_d.add "rao",-14140 
+	ZH_d.add "re",-14137 
+	ZH_d.add "ren",-14135 
+	ZH_d.add "reng",-14125 
+	ZH_d.add "ri",-14123 
+	ZH_d.add "rong",-14122 
+	ZH_d.add "rou",-14112 
+	ZH_d.add "ru",-14109 
+	ZH_d.add "ruan",-14099 
+	ZH_d.add "rui",-14097 
+	ZH_d.add "run",-14094 
+	ZH_d.add "ruo",-14092 
+	ZH_d.add "sa",-14090 
+	ZH_d.add "sai",-14087 
+	ZH_d.add "san",-14083 
+	ZH_d.add "sang",-13917 
+	ZH_d.add "sao",-13914 
+	ZH_d.add "se",-13910 
+	ZH_d.add "sen",-13907 
+	ZH_d.add "seng",-13906 
+	ZH_d.add "sha",-13905 
+	ZH_d.add "shai",-13896 
+	ZH_d.add "shan",-13894 
+	ZH_d.add "shang",-13878 
+	ZH_d.add "shao",-13870 
+	ZH_d.add "she",-13859 
+	ZH_d.add "shen",-13847 
+	ZH_d.add "sheng",-13831 
+	ZH_d.add "shi",-13658 
+	ZH_d.add "shou",-13611 
+	ZH_d.add "shu",-13601 
+	ZH_d.add "shua",-13406 
+	ZH_d.add "shuai",-13404 
+	ZH_d.add "shuan",-13400 
+	ZH_d.add "shuang",-13398 
+	ZH_d.add "shui",-13395 
+	ZH_d.add "shun",-13391 
+	ZH_d.add "shuo",-13387 
+	ZH_d.add "si",-13383 
+	ZH_d.add "song",-13367 
+	ZH_d.add "sou",-13359 
+	ZH_d.add "su",-13356 
+	ZH_d.add "suan",-13343 
+	ZH_d.add "sui",-13340 
+	ZH_d.add "sun",-13329 
+	ZH_d.add "suo",-13326 
+	ZH_d.add "ta",-13318 
+	ZH_d.add "tai",-13147 
+	ZH_d.add "tan",-13138 
+	ZH_d.add "tang",-13120 
+	ZH_d.add "tao",-13107 
+	ZH_d.add "te",-13096 
+	ZH_d.add "teng",-13095 
+	ZH_d.add "ti",-13091 
+	ZH_d.add "tian",-13076 
+	ZH_d.add "tiao",-13068 
+	ZH_d.add "tie",-13063 
+	ZH_d.add "ting",-13060 
+	ZH_d.add "tong",-12888 
+	ZH_d.add "tou",-12875 
+	ZH_d.add "tu",-12871 
+	ZH_d.add "tuan",-12860 
+	ZH_d.add "tui",-12858 
+	ZH_d.add "tun",-12852 
+	ZH_d.add "tuo",-12849 
+	ZH_d.add "wa",-12838 
+	ZH_d.add "wai",-12831 
+	ZH_d.add "wan",-12829 
+	ZH_d.add "wang",-12812 
+	ZH_d.add "wei",-12802 
+	ZH_d.add "wen",-12607 
+	ZH_d.add "weng",-12597 
+	ZH_d.add "wo",-12594 
+	ZH_d.add "wu",-12585 
+	ZH_d.add "xi",-12556 
+	ZH_d.add "xia",-12359 
+	ZH_d.add "xian",-12346 
+	ZH_d.add "xiang",-12320 
+	ZH_d.add "xiao",-12300 
+	ZH_d.add "xie",-12120 
+	ZH_d.add "xin",-12099 
+	ZH_d.add "xing",-12089 
+	ZH_d.add "xiong",-12074 
+	ZH_d.add "xiu",-12067 
+	ZH_d.add "xu",-12058 
+	ZH_d.add "xuan",-12039 
+	ZH_d.add "xue",-11867 
+	ZH_d.add "xun",-11861 
+	ZH_d.add "ya",-11847 
+	ZH_d.add "yan",-11831 
+	ZH_d.add "yang",-11798 
+	ZH_d.add "yao",-11781 
+	ZH_d.add "ye",-11604 
+	ZH_d.add "yi",-11589 
+	ZH_d.add "yin",-11536 
+	ZH_d.add "ying",-11358 
+	ZH_d.add "yo",-11340 
+	ZH_d.add "yong",-11339 
+	ZH_d.add "you",-11324 
+	ZH_d.add "yu",-11303 
+	ZH_d.add "yuan",-11097 
+	ZH_d.add "yue",-11077 
+	ZH_d.add "yun",-11067 
+	ZH_d.add "za",-11055 
+	ZH_d.add "zai",-11052 
+	ZH_d.add "zan",-11045 
+	ZH_d.add "zang",-11041 
+	ZH_d.add "zao",-11038 
+	ZH_d.add "ze",-11024 
+	ZH_d.add "zei",-11020 
+	ZH_d.add "zen",-11019 
+	ZH_d.add "zeng",-11018 
+	ZH_d.add "zha",-11014 
+	ZH_d.add "zhai",-10838 
+	ZH_d.add "zhan",-10832 
+	ZH_d.add "zhang",-10815 
+	ZH_d.add "zhao",-10800 
+	ZH_d.add "zhe",-10790 
+	ZH_d.add "zhen",-10780 
+	ZH_d.add "zheng",-10764 
+	ZH_d.add "zhi",-10587 
+	ZH_d.add "zhong",-10544 
+	ZH_d.add "zhou",-10533 
+	ZH_d.add "zhu",-10519 
+	ZH_d.add "zhua",-10331 
+	ZH_d.add "zhuai",-10329 
+	ZH_d.add "zhuan",-10328 
+	ZH_d.add "zhuang",-10322 
+	ZH_d.add "zhui",-10315 
+	ZH_d.add "zhun",-10309 
+	ZH_d.add "zhuo",-10307 
+	ZH_d.add "zi",-10296 
+	ZH_d.add "zong",-10281 
+	ZH_d.add "zou",-10274 
+	ZH_d.add "zu",-10270 
+	ZH_d.add "zuan",-10262 
+	ZH_d.add "zui",-10260 
+	ZH_d.add "zun",-10256 
+	ZH_d.add "zuo",-10254
+Else
+	ZH_d.add "A",-20319 
+	ZH_d.add "Ai",-20317 
+	ZH_d.add "An",-20304 
+	ZH_d.add "Ang",-20295 
+	ZH_d.add "Ao",-20292 
+	ZH_d.add "Bba",-20283 
+	ZH_d.add "Bai",-20265 
+	ZH_d.add "Ban",-20257 
+	ZH_d.add "Bang",-20242 
+	ZH_d.add "Bao",-20230 
+	ZH_d.add "Bei",-20051 
+	ZH_d.add "Ben",-20036 
+	ZH_d.add "Beng",-20032 
+	ZH_d.add "Bi",-20026 
+	ZH_d.add "Bian",-20002 
+	ZH_d.add "Biao",-19990 
+	ZH_d.add "Bie",-19986 
+	ZH_d.add "Bin",-19982 
+	ZH_d.add "Bing",-19976 
+	ZH_d.add "Bo",-19805 
+	ZH_d.add "Bu",-19784 
+	ZH_d.add "Ba",-19775 
+	ZH_d.add "Cai",-19774 
+	ZH_d.add "Can",-19763 
+	ZH_d.add "Cang",-19756 
+	ZH_d.add "Cao",-19751 
+	ZH_d.add "Ce",-19746 
+	ZH_d.add "Ceng",-19741 
+	ZH_d.add "Cha",-19739 
+	ZH_d.add "Chai",-19728 
+	ZH_d.add "Chan",-19725 
+	ZH_d.add "Chang",-19715 
+	ZH_d.add "Chao",-19540 
+	ZH_d.add "Che",-19531 
+	ZH_d.add "Chen",-19525 
+	ZH_d.add "Cheng",-19515 
+	ZH_d.add "Chi",-19500 
+	ZH_d.add "Chong",-19484 
+	ZH_d.add "Chou",-19479 
+	ZH_d.add "Chu",-19467 
+	ZH_d.add "Chuai",-19289 
+	ZH_d.add "Chuan",-19288 
+	ZH_d.add "Chuang",-19281 
+	ZH_d.add "Chui",-19275 
+	ZH_d.add "Chun",-19270 
+	ZH_d.add "Chuo",-19263 
+	ZH_d.add "Ci",-19261 
+	ZH_d.add "Cong",-19249 
+	ZH_d.add "Cou",-19243 
+	ZH_d.add "Cu",-19242 
+	ZH_d.add "Ccuan",-19238 
+	ZH_d.add "Cui",-19235 
+	ZH_d.add "Cun",-19227 
+	ZH_d.add "Cuo",-19224 
+	ZH_d.add "Da",-19218 
+	ZH_d.add "Dai",-19212 
+	ZH_d.add "Dan",-19038 
+	ZH_d.add "Dang",-19023 
+	ZH_d.add "Dao",-19018 
+	ZH_d.add "De",-19006 
+	ZH_d.add "Deng",-19003 
+	ZH_d.add "Di",-18996 
+	ZH_d.add "Dian",-18977 
+	ZH_d.add "Diao",-18961 
+	ZH_d.add "Die",-18952 
+	ZH_d.add "Ding",-18783 
+	ZH_d.add "Diu",-18774 
+	ZH_d.add "Dong",-18773 
+	ZH_d.add "Dou",-18763 
+	ZH_d.add "Du",-18756 
+	ZH_d.add "Duan",-18741 
+	ZH_d.add "Dui",-18735 
+	ZH_d.add "Dun",-18731 
+	ZH_d.add "Dduo",-18722 
+	ZH_d.add "E",-18710 
+	ZH_d.add "En",-18697 
+	ZH_d.add "Er",-18696 
+	ZH_d.add "Fa",-18526 
+	ZH_d.add "Fan",-18518 
+	ZH_d.add "Fang",-18501 
+	ZH_d.add "Fei",-18490 
+	ZH_d.add "Fen",-18478 
+	ZH_d.add "Feng",-18463 
+	ZH_d.add "Fo",-18448 
+	ZH_d.add "Fou",-18447 
+	ZH_d.add "Fu",-18446 
+	ZH_d.add "Ga",-18239 
+	ZH_d.add "Gai",-18237 
+	ZH_d.add "Gan",-18231 
+	ZH_d.add "Gang",-18220 
+	ZH_d.add "Gao",-18211 
+	ZH_d.add "Ge",-18201 
+	ZH_d.add "Gei",-18184 
+	ZH_d.add "Gen",-18183 
+	ZH_d.add "Geng",-18181 
+	ZH_d.add "Gong",-18012 
+	ZH_d.add "Gou",-17997 
+	ZH_d.add "Gu",-17988 
+	ZH_d.add "Gua",-17970 
+	ZH_d.add "Guai",-17964 
+	ZH_d.add "Guan",-17961 
+	ZH_d.add "Guang",-17950 
+	ZH_d.add "Gui",-17947 
+	ZH_d.add "Gun",-17931 
+	ZH_d.add "Guo",-17928 
+	ZH_d.add "Ha",-17922 
+	ZH_d.add "Hai",-17759 
+	ZH_d.add "Han",-17752 
+	ZH_d.add "Hang",-17733 
+	ZH_d.add "Hao",-17730 
+	ZH_d.add "He",-17721 
+	ZH_d.add "Hei",-17703 
+	ZH_d.add "Hen",-17701 
+	ZH_d.add "Heng",-17697 
+	ZH_d.add "Hong",-17692 
+	ZH_d.add "Hou",-17683 
+	ZH_d.add "Hu",-17676 
+	ZH_d.add "Hua",-17496 
+	ZH_d.add "Huai",-17487 
+	ZH_d.add "Huan",-17482 
+	ZH_d.add "Huang",-17468 
+	ZH_d.add "Hui",-17454 
+	ZH_d.add "Hun",-17433 
+	ZH_d.add "Huo",-17427 
+	ZH_d.add "Ji",-17417 
+	ZH_d.add "Jia",-17202 
+	ZH_d.add "Jian",-17185 
+	ZH_d.add "Jiang",-16983 
+	ZH_d.add "Jiao",-16970 
+	ZH_d.add "Jie",-16942 
+	ZH_d.add "Jin",-16915 
+	ZH_d.add "Jing",-16733 
+	ZH_d.add "Jiong",-16708 
+	ZH_d.add "Jiu",-16706 
+	ZH_d.add "Ju",-16689 
+	ZH_d.add "Juan",-16664 
+	ZH_d.add "Jue",-16657 
+	ZH_d.add "Jun",-16647 
+	ZH_d.add "Ka",-16474 
+	ZH_d.add "Kai",-16470 
+	ZH_d.add "Kan",-16465 
+	ZH_d.add "Kang",-16459 
+	ZH_d.add "Kao",-16452 
+	ZH_d.add "Ke",-16448 
+	ZH_d.add "Ken",-16433 
+	ZH_d.add "Keng",-16429 
+	ZH_d.add "Kong",-16427 
+	ZH_d.add "Kou",-16423 
+	ZH_d.add "Ku",-16419 
+	ZH_d.add "Kua",-16412 
+	ZH_d.add "Kuai",-16407 
+	ZH_d.add "Kuan",-16403 
+	ZH_d.add "Kuang",-16401 
+	ZH_d.add "Kui",-16393 
+	ZH_d.add "Kun",-16220 
+	ZH_d.add "Kuo",-16216 
+	ZH_d.add "La",-16212 
+	ZH_d.add "Lai",-16205 
+	ZH_d.add "Lan",-16202 
+	ZH_d.add "Lang",-16187 
+	ZH_d.add "Lao",-16180 
+	ZH_d.add "Le",-16171 
+	ZH_d.add "Lei",-16169 
+	ZH_d.add "Leng",-16158 
+	ZH_d.add "Li",-16155 
+	ZH_d.add "Lia",-15959 
+	ZH_d.add "Lian",-15958 
+	ZH_d.add "Liang",-15944 
+	ZH_d.add "Liao",-15933 
+	ZH_d.add "Lie",-15920 
+	ZH_d.add "Lin",-15915 
+	ZH_d.add "Ling",-15903 
+	ZH_d.add "Liu",-15889 
+	ZH_d.add "Long",-15878 
+	ZH_d.add "Lou",-15707 
+	ZH_d.add "Lu",-15701 
+	ZH_d.add "Lv",-15681 
+	ZH_d.add "Luan",-15667 
+	ZH_d.add "Lue",-15661 
+	ZH_d.add "Lun",-15659 
+	ZH_d.add "Luo",-15652 
+	ZH_d.add "Ma",-15640 
+	ZH_d.add "Mai",-15631 
+	ZH_d.add "Man",-15625 
+	ZH_d.add "Mang",-15454 
+	ZH_d.add "Mao",-15448 
+	ZH_d.add "Me",-15436 
+	ZH_d.add "Mei",-15435 
+	ZH_d.add "Men",-15419 
+	ZH_d.add "Meng",-15416 
+	ZH_d.add "Mi",-15408 
+	ZH_d.add "Mian",-15394 
+	ZH_d.add "Miao",-15385 
+	ZH_d.add "Mie",-15377 
+	ZH_d.add "Min",-15375 
+	ZH_d.add "Ming",-15369 
+	ZH_d.add "Miu",-15363 
+	ZH_d.add "Mo",-15362 
+	ZH_d.add "Mou",-15183 
+	ZH_d.add "Mu",-15180 
+	ZH_d.add "Na",-15165 
+	ZH_d.add "Nai",-15158 
+	ZH_d.add "Nan",-15153 
+	ZH_d.add "Nang",-15150 
+	ZH_d.add "Nao",-15149 
+	ZH_d.add "Ne",-15144 
+	ZH_d.add "Nei",-15143 
+	ZH_d.add "Nen",-15141 
+	ZH_d.add "Neng",-15140 
+	ZH_d.add "Ni",-15139 
+	ZH_d.add "Nian",-15128 
+	ZH_d.add "Niang",-15121 
+	ZH_d.add "Niao",-15119 
+	ZH_d.add "Nie",-15117 
+	ZH_d.add "Nin",-15110 
+	ZH_d.add "Ning",-15109 
+	ZH_d.add "Niu",-14941 
+	ZH_d.add "Nong",-14937 
+	ZH_d.add "Nu",-14933 
+	ZH_d.add "Nv",-14930 
+	ZH_d.add "Nuan",-14929 
+	ZH_d.add "Nue",-14928 
+	ZH_d.add "Nuo",-14926 
+	ZH_d.add "O",-14922 
+	ZH_d.add "Ou",-14921 
+	ZH_d.add "Pa",-14914 
+	ZH_d.add "Pai",-14908 
+	ZH_d.add "Pan",-14902 
+	ZH_d.add "Pang",-14894 
+	ZH_d.add "Pao",-14889 
+	ZH_d.add "Pei",-14882 
+	ZH_d.add "Pen",-14873 
+	ZH_d.add "Peng",-14871 
+	ZH_d.add "Pi",-14857 
+	ZH_d.add "Pian",-14678 
+	ZH_d.add "Piao",-14674 
+	ZH_d.add "Pie",-14670 
+	ZH_d.add "Pin",-14668 
+	ZH_d.add "Ping",-14663 
+	ZH_d.add "Po",-14654 
+	ZH_d.add "Pu",-14645 
+	ZH_d.add "Qi",-14630 
+	ZH_d.add "Qia",-14594 
+	ZH_d.add "Qian",-14429 
+	ZH_d.add "Qiang",-14407 
+	ZH_d.add "Qiao",-14399 
+	ZH_d.add "Qie",-14384 
+	ZH_d.add "Qin",-14379 
+	ZH_d.add "Qing",-14368 
+	ZH_d.add "Qiong",-14355 
+	ZH_d.add "Qiu",-14353 
+	ZH_d.add "Qu",-14345 
+	ZH_d.add "Quan",-14170 
+	ZH_d.add "Que",-14159 
+	ZH_d.add "Qun",-14151 
+	ZH_d.add "Ran",-14149 
+	ZH_d.add "Rang",-14145 
+	ZH_d.add "Rao",-14140 
+	ZH_d.add "Re",-14137 
+	ZH_d.add "Ren",-14135 
+	ZH_d.add "Reng",-14125 
+	ZH_d.add "Ri",-14123 
+	ZH_d.add "Rong",-14122 
+	ZH_d.add "Rou",-14112 
+	ZH_d.add "Ru",-14109 
+	ZH_d.add "Ruan",-14099 
+	ZH_d.add "Rui",-14097 
+	ZH_d.add "Run",-14094 
+	ZH_d.add "Ruo",-14092 
+	ZH_d.add "Sa",-14090 
+	ZH_d.add "Sai",-14087 
+	ZH_d.add "San",-14083 
+	ZH_d.add "Sang",-13917 
+	ZH_d.add "Sao",-13914 
+	ZH_d.add "Se",-13910 
+	ZH_d.add "Sen",-13907 
+	ZH_d.add "Seng",-13906 
+	ZH_d.add "Sha",-13905 
+	ZH_d.add "Shai",-13896 
+	ZH_d.add "Shan",-13894 
+	ZH_d.add "Shang",-13878 
+	ZH_d.add "Shao",-13870 
+	ZH_d.add "She",-13859 
+	ZH_d.add "Shen",-13847 
+	ZH_d.add "Sheng",-13831 
+	ZH_d.add "Shi",-13658 
+	ZH_d.add "Sshou",-13611 
+	ZH_d.add "Shu",-13601 
+	ZH_d.add "Shua",-13406 
+	ZH_d.add "Shuai",-13404 
+	ZH_d.add "Shuan",-13400 
+	ZH_d.add "Shuang",-13398 
+	ZH_d.add "Shui",-13395 
+	ZH_d.add "Shun",-13391 
+	ZH_d.add "Shuo",-13387 
+	ZH_d.add "Si",-13383 
+	ZH_d.add "Song",-13367 
+	ZH_d.add "Sou",-13359 
+	ZH_d.add "Su",-13356 
+	ZH_d.add "Suan",-13343 
+	ZH_d.add "Sui",-13340 
+	ZH_d.add "Sun",-13329 
+	ZH_d.add "Suo",-13326 
+	ZH_d.add "Ta",-13318 
+	ZH_d.add "Tai",-13147 
+	ZH_d.add "Tan",-13138 
+	ZH_d.add "Tang",-13120 
+	ZH_d.add "Tao",-13107 
+	ZH_d.add "Te",-13096 
+	ZH_d.add "Teng",-13095 
+	ZH_d.add "Ti",-13091 
+	ZH_d.add "Tian",-13076 
+	ZH_d.add "Tiao",-13068 
+	ZH_d.add "Tie",-13063 
+	ZH_d.add "Ting",-13060 
+	ZH_d.add "Tong",-12888 
+	ZH_d.add "Tou",-12875 
+	ZH_d.add "Tu",-12871 
+	ZH_d.add "Tuan",-12860 
+	ZH_d.add "Tui",-12858 
+	ZH_d.add "Tun",-12852 
+	ZH_d.add "Tuo",-12849 
+	ZH_d.add "Wa",-12838 
+	ZH_d.add "Wai",-12831 
+	ZH_d.add "Wan",-12829 
+	ZH_d.add "Wang",-12812 
+	ZH_d.add "Wei",-12802 
+	ZH_d.add "Wen",-12607 
+	ZH_d.add "Weng",-12597 
+	ZH_d.add "Wo",-12594 
+	ZH_d.add "Wu",-12585 
+	ZH_d.add "Xi",-12556 
+	ZH_d.add "Xia",-12359 
+	ZH_d.add "Xian",-12346 
+	ZH_d.add "Xiang",-12320 
+	ZH_d.add "Xiao",-12300 
+	ZH_d.add "Xie",-12120 
+	ZH_d.add "Xin",-12099 
+	ZH_d.add "Xing",-12089 
+	ZH_d.add "Xiong",-12074 
+	ZH_d.add "Xiu",-12067 
+	ZH_d.add "Xu",-12058 
+	ZH_d.add "Xuan",-12039 
+	ZH_d.add "Xue",-11867 
+	ZH_d.add "Xun",-11861 
+	ZH_d.add "Ya",-11847 
+	ZH_d.add "Yan",-11831 
+	ZH_d.add "Yang",-11798 
+	ZH_d.add "Yao",-11781 
+	ZH_d.add "Ye",-11604 
+	ZH_d.add "Yi",-11589 
+	ZH_d.add "Yin",-11536 
+	ZH_d.add "Ying",-11358 
+	ZH_d.add "Yo",-11340 
+	ZH_d.add "Yong",-11339 
+	ZH_d.add "You",-11324 
+	ZH_d.add "Yu",-11303 
+	ZH_d.add "Yuan",-11097 
+	ZH_d.add "Yue",-11077 
+	ZH_d.add "Yun",-11067 
+	ZH_d.add "Za",-11055 
+	ZH_d.add "Zai",-11052 
+	ZH_d.add "Zan",-11045 
+	ZH_d.add "Zang",-11041 
+	ZH_d.add "Zao",-11038 
+	ZH_d.add "Ze",-11024 
+	ZH_d.add "Zei",-11020 
+	ZH_d.add "Zen",-11019 
+	ZH_d.add "Zeng",-11018 
+	ZH_d.add "Zha",-11014 
+	ZH_d.add "Zhai",-10838 
+	ZH_d.add "Zhan",-10832 
+	ZH_d.add "Zhang",-10815 
+	ZH_d.add "Zhao",-10800 
+	ZH_d.add "Zhe",-10790 
+	ZH_d.add "Zhen",-10780 
+	ZH_d.add "Zheng",-10764 
+	ZH_d.add "Zhi",-10587 
+	ZH_d.add "Zhong",-10544 
+	ZH_d.add "Zhou",-10533 
+	ZH_d.add "Zhu",-10519 
+	ZH_d.add "Zhua",-10331 
+	ZH_d.add "Zhuai",-10329 
+	ZH_d.add "Zhuan",-10328 
+	ZH_d.add "Zhuang",-10322 
+	ZH_d.add "Zhui",-10315 
+	ZH_d.add "Zhun",-10309 
+	ZH_d.add "Zhuo",-10307 
+	ZH_d.add "Zi",-10296 
+	ZH_d.add "Zong",-10281 
+	ZH_d.add "Zou",-10274 
+	ZH_d.add "Zu",-10270 
+	ZH_d.add "Zuan",-10262 
+	ZH_d.add "Zui",-10260 
+	ZH_d.add "Zun",-10256 
+	ZH_d.add "Zuo",-10254
+End If
+
+Function ZH_g(ZH_num)		'对中文字符进行编码
+	If ZH_num > 0 And ZH_num < 160 Then		'英文直接跳过
+		ZH_g = chr(ZH_num) 
+	Else 
+		If ZH_num < -20319 Or ZH_num > -10247 Then 
+			ZH_g = ""
+		Else 
+			ZH_a = ZH_d.Items 
+			ZH_b = ZH_d.keys
+			For ZH_e = ZH_d.count-1 To 0 step -1
+				If ZH_a(ZH_e)<=ZH_num Then Exit For 
+			Next 
+			ZH_g=ZH_b(ZH_e) 
+		End If 
+	End If
+End Function
+
+Function GetPinyinEncoded(ZH_str)		'主程序
+	GetPinyinEncoded = ""
+	ZH_str = ReplaceSpecialStr(ZH_str)
+	ZH_str = ReplaceErrPolyphone(ZH_str)
+	For ZH_i=1 To Len(ZH_str)
+		GetPinyinEncoded = GetPinyinEncoded & ZH_g(Asc(Mid(ZH_str, ZH_i, 1)))
+	Next
+End Function
+
+Function ReplaceErrPolyphone(Z_str)		'替换多音字
+	Z_str = Replace(Z_str,"圳","zhen")
+	Z_str = Replace(Z_str,"莞","guan")
+	Z_str = Replace(Z_str,"重","chong")
+	ReplaceErrPolyphone = Z_str
+End Function
+
+Function ReplaceSpecialStr(M_Str)		'替换特殊字符
+	ReplaceSpecialStr = ""
+	If M_Str <> "" Then
+		M_Str=Replace(M_Str,"!","")
+		M_Str=Replace(M_Str,"！","")
+		M_Str=Replace(M_Str,"@","")
+		M_Str=Replace(M_Str,"#","")
+		M_Str=Replace(M_Str,"$","")
+		M_Str=Replace(M_Str,"%","")
+		M_Str=Replace(M_Str,"^","")
+		M_Str=Replace(M_Str,"&","")
+		M_Str=Replace(M_Str,"*","")
+		M_Str=Replace(M_Str,"(","")
+		M_Str=Replace(M_Str,")","")
+		M_Str=Replace(M_Str,"（","")
+		M_Str=Replace(M_Str,"）","")
+		M_Str=Replace(M_Str,"=","")
+		M_Str=Replace(M_Str,"＝","")
+		M_Str=Replace(M_Str,"+","")
+		M_Str=Replace(M_Str,":","")
+		M_Str=Replace(M_Str,"：","")
+		M_Str=Replace(M_Str,";","")
+		M_Str=Replace(M_Str,"；","")
+		M_Str=Replace(M_Str,"'","")
+		M_Str=Replace(M_Str,"""","")
+		M_Str=Replace(M_Str,"‘","")
+		M_Str=Replace(M_Str,"’","")
+		M_Str=Replace(M_Str,"“","")
+		M_Str=Replace(M_Str,"”","")
+		M_Str=Replace(M_Str,"","")
+		M_Str=Replace(M_Str,"÷","")
+		M_Str=Replace(M_Str,"|","")
+		M_Str=Replace(M_Str,"§","")
+		M_Str=Replace(M_Str,"<","")
+		M_Str=Replace(M_Str,"《","")
+		M_Str=Replace(M_Str,">","")
+		M_Str=Replace(M_Str,"》","")
+		M_Str=Replace(M_Str,",","")
+		M_Str=Replace(M_Str,"，","")
+		M_Str=Replace(M_Str,"。","")
+		M_Str=Replace(M_Str,"?","")
+		M_Str=Replace(M_Str,"？","")
+		M_Str=Replace(M_Str,"/","")
+		M_Str=Replace(M_Str,"、","")
+		ReplaceSpecialStr = M_Str
+	End If
+End Function
+%>
